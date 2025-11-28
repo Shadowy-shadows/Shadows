@@ -1,0 +1,287 @@
+/* ====== Base styles & fonts ====== */ *{box-sizing:border-box;margin:0;padding:0} html,body{height:100%;font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial} body{background:linear-gradient(135deg,#ffdff3 0%, #ffeef8 30%, #fff9fb 100%);color:#2b0730;overflow-x:hidden} .page{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative} /* ====== HERO / index ====== */ .page-hero{padding:40px 20px} .hero-overlay{position:absolute;inset:0;background:radial-gradient(circle at 10% 20%, rgba(255,182,193,0.06), transparent 10%), radial-gradient(circle at 90% 80%, rgba(255,192,203,0.04), transparent 20%);pointer-events:none} .hero-top{position:absolute;top:28px;left:28px;text-shadow:0 2px 8px rgba(0,0,0,0.06)} .site-title{font-family:'Dancing Script',cursive;font-size:34px;color:#40173a} .site-sub{font-weight:600;color:#6b2a53} .hero-main{display:flex;flex-direction:column;align-items:center;gap:18px} .portrait-container{position:relative;width:220px;height:220px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 40px rgba(255,182,193,0.25), inset 0 2px 6px rgba(255,255,255,0.12)} .portrait{width:200px;height:200px;border-radius:50%;object-fit:cover;border:6px solid rgba(255,255,255,0.18);} .portrait-shine{position:absolute;left:8px;top:8px;width:70px;height:70px;border-radius:50%;background:linear-gradient(135deg,#ffffff55, transparent);filter:blur(6px);opacity:0.9;transform:rotate(25deg)} .intro-text h2{font-family:'Dancing Script',cursive;font-size:36px;color:#641f4a;text-align:center} .intro-text p{color:#6b2a53;opacity:0.95} /* ===== Floating button (pink fairy) ===== */ .floating-btn{position:fixed;bottom:25px;right:25px;width:90px;height:90px;background:rgba(255,105,180,0.25);backdrop-filter:blur(10px);border:2px solid rgba(255,182,193,0.55);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;transition:.35s;z-index:9999;box-shadow:0 10px 30px rgba(255,182,193,0.35)} .floating-btn i{font-size:30px;color:#fff} .floating-btn:hover{transform:scale(1.15);background:rgba(255,105,180,0.38);box-shadow:0 12px 40px rgba(255,182,193,0.6)} /* Bubble label */ .btn-name{position:absolute;right:75px;padding:12px 38px;background:rgba(255,182,193,0.40);backdrop-filter:blur(12px);border-radius:32px;font-size:19px;font-weight:700;color:#fff;opacity:0;pointer-events:none;transition:.35s;white-space:nowrap;border:2px solid rgba(255,192,203,0.7);box-shadow:0 0 16px rgba(255,182,193,0.75)} .floating-btn:hover .btn-name{opacity:1;right:100px;transform:scale(1.08)} /* music play btn */ .music-play{position:fixed;bottom:30px;left:30px;width:56px;height:56px;border-radius:12px;background:rgba(255,255,255,0.15);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:9999;box-shadow:0 6px 20px rgba(255,182,193,0.2)} .music-play i{color:#40173a;font-size:20px} .music-play.hidden{display:none} /* footer */ .credits{position:fixed;bottom:12px;right:18px;font-size:12px;color:#6b2a53;opacity:0.7} /* ===== Surprise page ===== */ .page-surprise{padding:30px 18px;background:linear-gradient(180deg,#fff9fb 0%, #ffeef8 100%);min-height:100vh} .surprise-card{max-width:820px;margin:0 auto;background:linear-gradient(180deg,rgba(255,255,255,0.6),rgba(255,245,250,0.7));padding:28px;border-radius:20px;box-shadow:0 18px 60px rgba(100,20,60,0.07);border:1px solid rgba(255,182,193,0.25)} .surprise-header{text-align:center;margin-bottom:10px} .surprise-title{font-family:'Dancing Script',cursive;font-size:42px;color:#641f4a;margin-bottom:6px} .surprise-sub{color:#6b2a53} .surprise-body{display:grid;grid-template-columns:220px 1fr;gap:20px;align-items:center} .photo-circle{width:220px;height:220px;border-radius:50%;display:flex;align-items:center;justify-content:center;overflow:hidden;margin:auto;box-shadow:0 12px 40px rgba(255,182,193,0.25);border:6px solid rgba(255,255,255,0.22)} .photo-circle img{width:100%;height:100%;object-fit:cover} .message{padding:6px 10px} .msg-line{font-family:'Dancing Script',cursive;font-size:28px;color:#40173a;margin-bottom:6px} .msg-text{color:#4a1a3a;line-height:1.5} /* confetti / sparkle accents */ .confetti-wrap{position:absolute;left:12px;top:12px;pointer-events:none} .confetti{position:absolute;width:12px;height:12px;border-radius:3px;opacity:0.9} /* confetti / sparkle accents */ .portrait-container .confetti, .photo-circle .confetti { position: absolute; width: 10px; height: 10px; border-radius: 3px; background: rgba(255,182,193,0.8); animation: sparkle 2.8s infinite ease-in-out; pointer-events: none; } @keyframes sparkle { 0% { transform: scale(0.6) translateY(0); opacity: 0.9; } 50% { transform: scale(1.35) translateY(-8px); opacity: 1; } 100% { transform: scale(0.6) translateY(0); opacity: 0.9; } } /* ===== Back button ===== */ .back-btn { display: inline-flex; align-items: center; gap: 8px; margin-top: 20px; padding: 12px 22px; font-size: 17px; font-weight: 600; background: rgba(255,105,180,0.18); border: 2px solid rgba(255,182,193,0.55); border-radius: 16px; color: #641f4a; text-decoration: none; cursor: pointer; transition: .3s; box-shadow: 0 6px 25px rgba(255,182,193,0.30); } .back-btn:hover { transform: translateY(-3px) scale(1.04); background: rgba(255,105,180,0.30); } /* ===== Animation page ===== */ .animation-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 26px; background: linear-gradient(135deg, #ffdff3 0%, #ffeaf3 55%, #fff7fb 100%); position: relative; overflow: hidden; padding: 30px 12px; } .animation-text { font-family: 'Dancing Script', cursive; font-size: 46px; color: #641f4a; text-align: center; text-shadow: 0 3px 12px rgba(255,182,193,0.55); animation: fadeInUp 1.7s ease forwards; opacity: 0; } @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } } /* floating sparkle particles */ .particle { position: absolute; background: rgba(255,182,193,0.7); width: 8px; height: 8px; border-radius: 50%; filter: blur(1px); animation: drift 6s infinite ease-in-out; } @keyframes drift { 0% { transform: translateY(0) translateX(0); opacity: 0.7; } 50% { opacity: 1; } 100% { transform: translateY(-160px) translateX(40px); opacity: 0; } } /* ===== Responsive ===== */ @media (max-width: 720px) { .surprise-body { grid-template-columns: 1fr; text-align: center; } .photo-circle { margin-bottom: 18px; } .surprise-title { font-size: 36px; } .msg-line { font-size: 26px; } } /* ===== Song selection UI ===== */ .song-select-page { display: flex; align-items: center; justify-content: center; } .song-box { max-width: 520px; width: 90%; padding: 28px; background: rgba(255, 215, 235, 0.45); backdrop-filter: blur(16px); border-radius: 26px; box-shadow: 0 8px 40px rgba(255, 105, 180, 0.25); text-align: center; } .song-title { font-family: 'Dancing Script', cursive; font-size: 40px; color: #641f4a; margin-bottom: 6px; } .song-sub { font-size: 15px; color: #7d3b68; margin-bottom: 20px; } .song-list { display: flex; flex-direction: column; gap: 12px; } .song-option { padding: 14px 22px; font-size: 18px; background: rgba(255, 255, 255, 0.35); border: 2px solid rgba(255, 192, 203, 0.65); color: #52173f; border-radius: 14px; cursor: pointer; font-weight: 600; transition: .32s; } .song-option:hover { transform: scale(1.06); background: rgba(255, 255, 255, 0.55); } .song-note { margin-top: 20px; font-size: 13px; color: #7d3b68; } /* Floating Music Controller */ .music-widget { position: fixed; left: 22px; bottom: 22px; height: 65px; width: 65px; border-radius: 50%; background: #ff7adf; box-shadow: 0 0 20px #ff93eb, 0 0 35px #ff55d2; display: flex; justify-content: center; align-items: center; cursor: pointer; z-index: 999; } .music-icon { font-size: 24px; color: white; position: absolute; z-index: 5; } /* Waves animation */ .wave { position: absolute; width: 85px; height: 85px; border: 2px solid #ff9aed; border-radius: 50%; opacity: 0; animation: pulse 2s infinite; } .wave1 { animation-delay: 0s; } .wave2 { animation-delay: .5s; } .wave3 { animation-delay: 1s; } @keyframes pulse { 0% { transform: scale(.7); opacity: .9; } 70% { transform: scale(1.4); opacity: 0; } 100% { opacity: 0; } } /* hidden waves on pause */ .music-paused .wave { display: none; } .music-widget { position: fixed; bottom: 22px; right: 22px; width: 60px; height: 60px; border-radius: 50%; background: rgba(255, 100, 180, 0.85); backdrop-filter: blur(3px); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; z-index: 999; } .music-widget:hover { transform: scale(1.08); } .music-widget .music-icon { font-size: 23px; color: white; z-index: 3; } .wave { position: absolute; width: 6px; height: 14px; background: white; border-radius: 20px; bottom: 12px; opacity: 1; animation: wave 0.6s ease-in-out infinite; } .wave1 { left: 18px; animation-delay: 0s; } .wave2 { left: 27px; animation-delay: 0.2s; } .wave3 { left: 36px; animation-delay: 0.4s; } @keyframes wave { 0%,100% { height: 6px; } 50% { height: 18px; } } /* When paused → stop animation & fade waves */ .music-widget.paused .wave { animation: none; opacity: 0.15; }
+
+
+
+/* 🌸 Falling Sakura Petals */
+.petal {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: -10;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.petal span {
+    display: inline-block;
+    overflow: hidden;
+    width: 10px;
+    height: 10px;
+    border-radius: 200px 10px 200px 200px;
+    background: linear-gradient(to bottom, #faaca8, #ddd6f3);
+    animation: fallingSakura1 8s ease infinite;
+}
+
+.petal span:nth-of-type(3n+2) { animation: fallingSakura2 8s ease infinite; }
+.petal span:nth-of-type(3n+1) { animation: fallingSakura3 8s ease infinite; }
+
+.petal span:nth-of-type(n)   { animation-delay: -1.9s;}
+.petal span:nth-of-type(2n)  { animation-delay: 3.9s;}
+.petal span:nth-of-type(3n)  { animation-delay: 2.3s;}
+.petal span:nth-of-type(4n)  { animation-delay: 4.4s;}
+.petal span:nth-of-type(5n)  { animation-delay: 5s; }
+.petal span:nth-of-type(6n)  { animation-delay: 3.5s;}
+.petal span:nth-of-type(7n)  { animation-delay: 2.8s;}
+.petal span:nth-of-type(8n)  { animation-delay: 1.5s;}
+.petal span:nth-of-type(9n)  { animation-delay: 3.3s;}
+.petal span:nth-of-type(10n) { animation-delay: 2.5s;}
+.petal span:nth-of-type(11n) { animation-delay: 1.2s;}
+.petal span:nth-of-type(12n) { animation-delay: 4.1s;}
+.petal span:nth-of-type(13n) { animation-delay: 5.8s;}
+.petal span:nth-of-type(14n) { animation-delay: -0.1s;}
+.petal span:nth-of-type(15n) { animation-delay: 6.3s;}
+.petal span:nth-of-type(16n) { animation-delay: -1s;}
+.petal span:nth-of-type(17n) { animation-delay: 7.4s;}
+.petal span:nth-of-type(18n) { animation-delay: -0.3s;}
+.petal span:nth-of-type(19n) { animation-delay: 8.3s;}
+.petal span:nth-of-type(20n) { animation-delay: -0.6s;}
+.petal span:nth-of-type(21n) { animation-delay: 7.7s;}
+
+@keyframes fallingSakura1 {
+    0% { transform: translate3d(0,0,0) rotateX(0deg); opacity: 1; }
+    100% { transform: translate3d(400px,1200px,0px) rotateX(-290deg); opacity: 0.3; }
+}
+@keyframes fallingSakura2 {
+    0% { transform: translate3d(0,0,0) rotateX(-20deg); opacity: 1; }
+    100% { transform: translate3d(200px,1200px,0px) rotateX(-70deg); opacity: 0.2; }
+}
+@keyframes fallingSakura3 {
+    0% { transform: translate3d(0,0,0) rotateX(90deg); opacity: 1; }
+    100% { transform: translate3d(500px,1200px,0px) rotateX(290deg); opacity: 0; }
+}
+
+/* ---------- Mailbox & Letter styles (imported) ---------- */
+.box__letter{
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0,0,0,.5);
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    display: none;
+}
+.box__letter .letter__border{
+    position: absolute;
+    width: 55vw;
+    height: 450px;
+    background-color: var(--color-white);
+    border-radius: 27px;
+    padding: 17px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    display: none;
+}
+.letter__border .close{
+    position: absolute;
+    right: -10px;
+    top: -10px;
+    width: 30px;
+    height: 30px;
+    background-color: var(--color-white);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    cursor: pointer;
+}
+.letter__border .letter{
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-bg-letter);
+    border-radius: 10px;
+    padding-top: 15px;
+}
+.letter__border .letter .title__letter{
+    text-align: center;
+    font-family: 'Dancing Script', cursive;
+    font-weight: bold;
+    font-size: 2.4rem;
+}
+.title__letter .fa-solid{
+    margin-left: 5px;
+    font-size: 1.3rem;
+}
+.letter__border .letter .content__letter{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    padding-top: 1.5rem;
+    padding-bottom: 70px;
+}
+.letter__border .letter .content__letter .left{
+    position: relative;
+    width: 50%;
+    height: 100%;
+    padding: 1.7rem;
+    border-right: 3px solid var(--color-border);
+}
+.content__letter .left #heart__letter{
+    opacity: 0;
+    width: 100%;
+}
+#heart__letter.animationOp{
+    animation: opacityHeart 1s 1s forwards;
+}
+@keyframes opacityHeart{
+    to{ opacity: 1; }
+}
+.content__letter .left .heart{ position: absolute; opacity: 0; }
+.content__letter .left .heart.animation{ animation: scaleHeartLetter 1s var(--t) infinite ease-in-out; }
+@keyframes scaleHeartLetter{
+    0%{ opacity: 1; transform: scale(0); }
+    10%{ opacity: 1; transform: scale(1.3); }
+    20%{ opacity: 1; transform: scale(0.7); }
+    30%,100%{ opacity: 1; transform: scale(1); }
+}
+.content__letter .left .heart_1{ top: 90px; left: 30px; }
+.content__letter .left .heart_2{ top: 20px; right: 70px; }
+.content__letter .left .heart_3{ bottom: 50px; left: 145px; }
+.content__letter .left .heart_4{ top: 140px; right: 35px; }
+.content__letter .right{ position: relative; width: 50%; }
+.content__letter .right .love__img{ opacity: 0; position: absolute; right: 20px; top: -100px; }
+.love__img.animationOp{ animation: opacityHeart 1s 1s forwards; }
+.content__letter .right .text__letter{ margin-top: 60px; padding: 20px 15px 10px 15px; font-family: 'Dancing Script', cursive; font-size: 1.3rem; }
+.content__letter .right #mewmew{ position: absolute; bottom: 0; right: 0; opacity: 0; }
+#mewmew.animationOp{ animation: opacityHeart 1s 1s forwards; }
+
+.boxMail{
+    position: fixed;
+    background: rgb(0, 0, 0, 0.8);
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: scale(0.3);
+    visibility: hidden;
+    transition: all 0.5s;
+    z-index: 100000000;
+}
+.boxMail.active{ opacity: 1; visibility: visible; transform: scale(1); }
+.boxMail .boxMail-container{ position: absolute; width: 750px; height: 500px; display: flex; margin: 0; transform: scale(0.9); -webkit-perspective: 2000px; perspective: 2000px; transition: all 0.5s; }
+.boxMail .boxMail-container:hover{ transform: rotate(-5deg); filter: drop-shadow(0 0 10px #FF7882); }
+.boxMail .boxMail-container:hover .card1{ transform: translate(-187px, -250px) rotateY(-140deg); }
+.boxMail .boxMail-container .card1, .boxMail .boxMail-container .card2{ position: absolute; width: 100%; height: 100%; top: 50%; left: 50%; transform: translate(-50%, -50%); border: 1px solid black; }
+.boxMail .boxMail-container .card1 { position: absolute; width: 50%; height: 100%; background: linear-gradient(to right, #FF7882, #FF7882 63%); color: white; display: flex; justify-content: center; align-items: center; flex-direction: column; }
+.boxMail-container .card1{ z-index: 1; -webkit-transform-style: preserve-3d; transform-style: preserve-3d; transform-origin: left; transition: all 1s ease-in-out; }
+.boxMail .boxMail-container .card1 .userImg{ position: relative; width: 80px; height: 80px; background-color: white; border-radius: 50%; overflow: hidden; border: 2px solid white; cursor: pointer; margin-bottom: 20px; }
+.boxMail .boxMail-container .card1 .userImg img{ position: absolute; object-fit: cover; width: calc(100%); height: calc(100%); }
+.boxMail .boxMail-container .card1 h3{ font-family: 'Dancing Script', cursive; font-size: 40px; text-transform: uppercase; width: 80%; text-align: center; line-height: 1.5; letter-spacing: 5px; transform: rotate(-5deg); text-shadow: 0 0 5px white, 0 0 10px white; }
+.boxMail .boxMail-container .card2{ position: relative; width: 50%; height: 100%; background: linear-gradient(to right, #e0e0e0, #ffffff 30%); -webkit-transform-style: preserve-3d; transform-style: preserve-3d; transform-origin: left; transition: all 1s; }
+.boxMail .boxMail-container .card2 .card2-content { width: 100%; height: 100%; position: relative; background-color: #FF7882; transition: all 1s; overflow: hidden; font-family: 'Poppins', sans-serif; color: #fff; }
+.boxMail .boxMail-container:hover .card2-content{ transform: translate(20px, 20px); box-shadow: -1px -1px 5px rgb(0, 0, 0, 0.4); }
+.boxMail .boxMail-container .card2 h3{ font-family: 'Dancing Script', cursive; padding: 20px 0px 10px 60px; opacity: 0; visibility: hidden; font-size: 25px; text-shadow: 0 0 8px #FF7882; }
+.boxMail .boxMail-container .card2:hover h3{ animation: texth3 3s forwards; animation-delay: 2s; transition: 1s; }
+@keyframes texth3{ 0%{ opacity: 1; visibility: visible; padding: 20px 0px 10px 60px; } 100%{ opacity: 1; visibility: visible; padding: 20px 0px 10px 152px; } }
+.boxMail .boxMail-container .card2 h2{ font-family: 'Dancing Script', cursive; padding: 0px 20px; text-indent: 20px; font-size: 22px; opacity: 0; }
+.boxMail .boxMail-container .card2:hover h2{ animation: texth2 2s forwards; animation-delay: 4s; transition: 1s; }
+@keyframes texth2{ 0%{ opacity: 0; } 100%{ opacity: 1; } }
+.boxMail .boxMail-container .card2 .card2-content .imageCute2{ position: absolute; top: 5px; left: 20px; opacity: 0; transition: 1s; }
+.boxMail .boxMail-container .card2 .card2-content:hover .imageCute2{ animation: cute3 1s linear infinite, cute4 3s 2s forwards; animation-delay: 2s; transition: 1s; }
+@keyframes cute3{ 0%{ opacity: 1; transform: rotate(0deg); } 25%{ opacity: 1; transform: rotate(5deg); } 50%{ opacity: 1; transform: rotate(0deg); } 75%{ opacity: 1; transform: rotate(-5deg); } 100%{ opacity: 1; transform: rotate(0deg); } }
+@keyframes cute4{ 0%{ left: 20px; } 100%{ left: 100px; } }
+.boxMail .boxMail-container .card2 .card2-content .imageCute2 img{ width: 40px; }
+.boxMail .fa-xmark{ position: fixed; top: 0; right: 0; font-size: 30px; padding: 10px 25px; cursor: pointer; color: white; z-index: 10000000000000000; }
+
+/* keep floating-btn styles compatible with mailbox template */
+.floating-btn { position: fixed; bottom: 25px; right: 25px; width: 90px; height: 90px; background: rgba(255, 105, 180, 0.25); backdrop-filter: blur(10px); border: 2px solid rgba(255, 182, 193, 0.55); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; text-decoration: none; transition: .3s; z-index: 99999; box-shadow: 0 0 18px rgba(255, 182, 193, 0.6); }
+.floating-btn i { font-size: 30px; color: #fff; }
+.btn-name { position: absolute; right: 75px; padding: 12px 38px; background: rgba(255, 182, 193, 0.40); backdrop-filter: blur(12px); border-radius: 32px; font-size: 19px; font-weight: 700; color: #ffffff; opacity: 0; pointer-events: none; transition: 0.4s; white-space: nowrap; border: 2px solid rgba(255, 192, 203, 0.70); box-shadow: 0 0 16px rgba(255, 182, 193, 0.75); }
+.floating-btn:hover .btn-name { opacity: 1; right: 100px; transform: scale(1.08); }
+.floating-btn:hover { transform: scale(1.15); background: rgba(255, 105, 180, 0.40); box-shadow: 0 0 30px rgba(255, 182, 193, 0.9); }
+
+/* responsive adjustments for mailbox modal */
+@media screen and (max-width: 658px) {
+    .box__letter .letter__border { width: 90vw; height: 315px; }
+    .boxMail .boxMail-container { width: 90vw; height: auto; flex-direction: column; }
+    .boxMail .boxMail-container .card1, .boxMail .boxMail-container .card2 { position: relative; width: 100%; height: auto; transform: none; }
+}
+
+/* End mailbox styles */
+
+/* Large centered mailbox button */
+.message-center{display:flex;justify-content:center;align-items:center;width:100%;padding:18px 0}
+.big-mail-btn{font-size:1.6rem;padding:18px 36px;border-radius:40px;background:linear-gradient(90deg,#ffabc7,#ff7aa0);color:#fff;border:3px solid rgba(0,0,0,0.12);box-shadow:0 10px 30px rgba(255,122,170,0.18);cursor:pointer;transition:transform .2s ease}
+.big-mail-btn:hover{transform:translateY(-4px) scale(1.02)}
+
+/* ===== Intro: Sakura tree germination ===== */
+/* Intro: Intro scene and improved tree animations */
+#introScene{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:2000}
+#introCanvas{position:fixed;inset:0;pointer-events:none;z-index:2010}
+#treeWrap{width:760px;height:760px;display:flex;align-items:flex-end;justify-content:center;transform-origin:center bottom;z-index:2020}
+#treeWrap svg{width:720px;height:720px;display:block}
+
+/* trunk grows from bottom -> top */
+#treeWrap .trunk{transform-origin:50% 100%; transform: scaleY(0); transition: transform 900ms cubic-bezier(.2,.9,.2,1);}
+#treeWrap.grow .trunk{transform: scaleY(1)}
+
+/* branches unfurl with staggered delays */
+#treeWrap .branches .branch{transform-origin:0 100%; transform: scaleY(0);}
+#treeWrap.grow .branches .branch{transform: scaleY(1); transition: transform 1100ms cubic-bezier(.2,.9,.2,1)}
+#treeWrap.grow .branches .branch:nth-child(1){ transition-delay: 240ms }
+#treeWrap.grow .branches .branch:nth-child(2){ transition-delay: 420ms }
+#treeWrap.grow .branches .branch:nth-child(3){ transition-delay: 620ms }
+#treeWrap.grow .branches .branch:nth-child(4){ transition-delay: 760ms }
+
+/* blossoms pop with a smoother, slower float */
+#treeWrap .blossom{transform-origin:center center; transform: translateY(10px) scale(0); opacity:0; will-change: transform, opacity}
+#treeWrap.grow .blossom{transform: translateY(0) scale(1); opacity:1; transition: transform 1100ms cubic-bezier(.17,.67,.11,1), opacity 900ms ease}
+#treeWrap .blossom{filter: drop-shadow(0 8px 18px rgba(255,150,200,0.18));}
+
+/* stagger blossom pop timings for a natural effect */
+#treeWrap.grow .blossom:nth-child(1){ transition-delay: 160ms }
+#treeWrap.grow .blossom:nth-child(2){ transition-delay: 340ms }
+#treeWrap.grow .blossom:nth-child(3){ transition-delay: 520ms }
+#treeWrap.grow .blossom:nth-child(4){ transition-delay: 700ms }
+#treeWrap.grow .blossom:nth-child(5){ transition-delay: 900ms }
+#treeWrap.grow .blossom:nth-child(6){ transition-delay: 1100ms }
+
+/* add a gentler, longer sway to blossoms after pop */
+@keyframes blossomSway { 0%{ transform: translateY(0) rotate(-4deg) } 50%{ transform: translateY(-8px) rotate(6deg) } 100%{ transform: translateY(0) rotate(-4deg) } }
+#treeWrap.grow .blossom { animation: blossomSway 6.6s ease-in-out infinite; transform-origin: center bottom }
+
+/* hide page content while intro-active, but keep it ready to pop */
+body.intro-active .hero-top,
+body.intro-active .hero-main,
+body.intro-active .music-widget,
+body.intro-active .floating-btn,
+body.intro-active .credits{
+    opacity: 0; transform: translateY(10px) scale(.98); pointer-events: none; transition: opacity .5s ease, transform .5s ease;
+}
+/* pop-in state */
+.pop-in{opacity:1 !important; transform: none !important; transition: transform .5s cubic-bezier(.2,.9,.2,1), opacity .45s ease}
+.hero-top.pop-in{transform: translateY(0) scale(1);}
+.hero-main.pop-in{transform: translateY(0) scale(1);}
+.music-widget.pop-in{transform: none}
+.floating-btn.pop-in{transform: none}
+
+/* remove intro gift styles (user requested removal) */
+
+@media (max-width:960px){
+    #treeWrap{width:420px;height:420px}
+    #treeWrap svg{width:380px;height:380px}
+}
+@media (max-width:520px){
+    #treeWrap{width:320px;height:320px}
+    #treeWrap svg{width:300px;height:300px}
+}
+
+/* small polish: slightly slow down main petal canvas while intro runs */
+body.intro-active #petalCanvas{opacity:0.85}

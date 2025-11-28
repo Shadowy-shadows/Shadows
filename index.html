@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Select Your Birthday Vibe</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="page song-select-page">
+
+<div class="song-box">
+    <h2 class="song-title">💖 Choose Your Favorite Song 💖</h2>
+    <h3 class="song-sub">danke songs mile hi nahi 😅</h3>
+
+    <button class="song-option" data-file="dujivaarpyaar.mp3">Duji Vaar Pyaar – Sunanda Sharma</button>
+    <button class="song-option" data-file="Hawayein.mp3">Hawayein</button>
+    <button class="song-option" data-file="Haseen.mp3">Haseen</button>
+    <button class="song-option" data-file="tujhmein.mp3">Tujh Mein Rab Dikhta Hai</button>
+    <button class="song-option" data-file="JanamJanam.mp3">Janam Janam Janam</button>
+    <button class="song-option" data-file="bthdaysong.mp3">Happy Birthday song 😂</button>
+
+
+    <p class="song-note">Music starts automatically after selection 🎶</p>
+</div>
+<script>
+document.querySelectorAll(".song-option").forEach(btn => {
+    btn.addEventListener("click", () => {
+        localStorage.setItem("selectedSong", btn.getAttribute("data-file"));
+        window.location.href = "mainpg.html";
+    });
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Birthday Surprise</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Poppins:wght@400;600&display=swap"
+        rel="stylesheet">
+</head>
+
+<body class="page page-surprise">
+
+<!-- 🎵 MUSIC WIDGET -->
+<div id="musicWidget" class="music-widget paused">
+    <div class="wave wave1"></div>
+    <div class="wave wave2"></div>
+    <div class="wave wave3"></div>
+    <i class="fa-solid fa-music music-icon"></i>
+</div>
+<audio id="bgMusic" preload="auto" loop></audio>
+
+<canvas id="petalCanvas" aria-hidden="true"></canvas>
+
+
+<div class="surprise-card">
+    <div class="surprise-header">
+        <h1 class="surprise-title">Yo.. Happy Birthday..</h1>
+        <p class="surprise-sub">Yashika — 29 November</p>
+    </div>
+
+    <div class="surprise-body">
+        <div class="photo-circle">
+            <img src="media/logo.jpeg" alt="Birthday Girl" />
+        </div>
+
+        <div class="message-center">
+            <button id="btn__letter" class="big-mail-btn">
+                <div class="mail">Yashika click here <i class="fa-regular fa-envelope"></i></div>
+            </button>
+        </div>
+        <div style="text-align:center;margin-top:10px;">
+            <a class="btn-back" href="mainpg.html"><i class="fa-solid fa-arrow-left"></i> Back</a>
+        </div>
+    </div>
+</div>
+
+<!-- Insert mailbox modal markup (from mailbox template) -->
+<div class="boxMail">
+    <i class="fa-solid fa-xmark"></i>
+    <div class="boxMail-container">
+        <div class="card1">
+            <div class="userImg">
+                <img src="media/logo.jpeg" alt="">
+            </div>
+            <h4 class="username">To: Yashika ✨<span class="underline"></span></h4>
+
+            <h3>Happy Birthday</h3>
+            <div class="imageCute">
+                <img src="cute1.png" alt="">
+            </div>
+        </div>
+        <div class="card2">
+            <div class="card2-content">
+                <h3>To You!</h3>
+                <h2>hmm.. so, Happy birthday 🥳🎂🥳 to you Yasu.
+                    well thnx to God ki ek teri jaisi dost mili jo ki kaafi sahi dost hai ekdum bindaas 😂 kaafi supportive hai badhiya nature ki aur baato ko smjhti bhi hai
+                    pata hai ek tu hi itni sahi si dost hai meri toh baat karliya kar itne nakhre mat dhikhaya kar 😾 msg tak nahi dhekti hai but chal koi na
+                    At last I hope tera ye birthday bahut special ho and jo bhi tu chahati hai wo sab mile tujhe in life. May god bless you with all the happiness and success in life. Stay happy, healthy and keep smiling always 😊. Enjoy your day to the fullest 🎉🎊💖🎈🎁
+                </h2>
+
+                <div class="imageCute2">
+                    <img src="cute2.png" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+const audio = document.getElementById("bgMusic");
+const widget = document.getElementById("musicWidget");
+
+let selected = localStorage.getItem("selectedSong");
+audio.src = selected ? "media/" + selected : "media/dujivaarpyaar.mp3";
+
+let playing = false;
+
+window.addEventListener("load", () => {
+    audio.play().then(() => {
+        playing = true;
+        widget.classList.remove("paused");
+    }).catch(()=>{});
+});
+
+widget.addEventListener("click", () => {
+    if (!playing) {
+        audio.play();
+        widget.classList.remove("paused");
+        playing = true;
+    } else {
+        audio.pause();
+        widget.classList.add("paused");
+        playing = false;
+    }
+});
+</script>
+<!-- Sakura petals canvas script -->
+<script>
+(() => {
+    const canvas = document.getElementById('petalCanvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+
+    let DPR = window.devicePixelRatio || 1;
+    function resize() {
+        DPR = window.devicePixelRatio || 1;
+        canvas.width = Math.floor(window.innerWidth * DPR);
+        canvas.height = Math.floor(window.innerHeight * DPR);
+        canvas.style.width = window.innerWidth + 'px';
+        canvas.style.height = window.innerHeight + 'px';
+        ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    }
+
+    Object.assign(canvas.style, {
+        position: 'fixed',
+        top: '0', left: '0',
+        pointerEvents: 'none',
+        zIndex: '1050',
+    });
+
+    window.addEventListener('resize', resize);
+    resize();
+
+    const petals = [];
+    const MAX = Math.max(12, Math.round(window.innerWidth / 20));
+
+    function rand(min, max) { return Math.random() * (max - min) + min; }
+
+    class Petal {
+        constructor() { this.reset(true); }
+        reset(fromTop) {
+            this.x = rand(-50, window.innerWidth + 50);
+            this.y = fromTop ? rand(-80, -10) : rand(-20, window.innerHeight);
+            this.size = rand(8, 22);
+            this.xVel = rand(-0.4, 0.8);
+            this.yVel = rand(0.6, 2.2);
+            this.rotation = rand(0, Math.PI * 2);
+            this.rotVel = rand(-0.02, 0.02);
+            this.opacity = rand(0.6, 1);
+            this.color = `rgba(255,${Math.round(rand(200,240))},${Math.round(rand(220,255))},${this.opacity})`;
+            this.swingPhase = rand(0, Math.PI*2);
+        }
+        update() {
+            this.x += this.xVel + Math.sin(this.swingPhase) * 0.6;
+            this.y += this.yVel;
+            this.rotation += this.rotVel;
+            this.swingPhase += 0.02;
+            if (this.y - this.size > window.innerHeight + 50 || this.x < -100 || this.x > window.innerWidth + 100) this.reset(true);
+        }
+        draw(ctx) {
+            ctx.save();
+            ctx.translate(this.x, this.y);
+            ctx.rotate(this.rotation);
+            ctx.fillStyle = this.color;
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.quadraticCurveTo(this.size*0.6, -this.size*0.2, this.size*0.2, -this.size*0.9);
+            ctx.quadraticCurveTo(0, -this.size*0.6, -this.size*0.2, -this.size*0.9);
+            ctx.quadraticCurveTo(-this.size*0.6, -this.size*0.2, 0, 0);
+            ctx.closePath();
+            ctx.fill();
+            ctx.restore();
+        }
+    }
+
+    function spawn(initial) { if (petals.length >= MAX) return; petals.push(new Petal(initial)); }
+    for (let i = 0; i < Math.min(40, MAX); i++) spawn(false);
+
+    function frame() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        if (Math.random() < 0.5 && petals.length < MAX) spawn(true);
+        for (let p of petals) { p.update(); p.draw(ctx); }
+        requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+})();
+</script>
+<!-- Mailbox script (typing, open/close) -->
+<script>
+    let datetxt = "29 November";
+    let datatxtletter ="";
+    let titleLetter = "To you";
+    let charArrDate = datetxt.split('');
+    let charArrDateLetter = datatxtletter.split('');
+    let charArrTitle = titleLetter.split('');
+    let currentIndex = 0;
+    let currentIndexLetter = 0;
+    let currentIndexTitle = 0;
+    let date__of__birth = document.querySelector(".date__of__birth span");
+    let text__letter = document.querySelector(".text__letter p");
+
+    var intervalContent;
+    var intervalTitle;
+    $("#btn__letter").on("click", function () {
+        $(".box__letter").slideDown()
+        setTimeout(function () {
+            $(".letter__border").slideDown();
+        }, 1000)
+        setTimeout(function () {
+            intervalTitle = setInterval(function () {
+                if (currentIndexTitle < charArrTitle.length) {
+                    document.querySelector(".title__letter").textContent += charArrTitle[currentIndexTitle];
+                    let i = document.createElement("i");
+                    i.className = "fa-solid fa-heart"
+                    document.querySelector(".title__letter").appendChild(i)
+                    currentIndexTitle++;
+                }
+                else {
+                    clearInterval(intervalTitle)
+                }
+            }, 100)
+        }, 2000)
+        setTimeout(function () {
+            document.querySelector("#heart__letter").classList.add("animationOp");
+            document.querySelector(".love__img").classList.add("animationOp");
+            document.querySelector("#mewmew").classList.add("animationOp");
+        }, 2800)
+        setTimeout(function () {
+            document.querySelectorAll(".heart").forEach((item) => {
+                item.classList.add("animation")
+            })
+        }, 3500)
+        setTimeout(function () {
+            intervalContent = setInterval(function () {
+                if (currentIndexLetter < charArrDateLetter.length) {
+                    if (text__letter) text__letter.textContent += charArrDateLetter[currentIndexLetter];
+                    currentIndexLetter++;
+                }
+                else {
+                    clearInterval(intervalContent)
+                }
+            }, 50)
+        }, 6000)
+    })
+    $(".close").on("click", function () {
+        clearInterval(intervalContent)
+        if (document.querySelector(".title__letter")) document.querySelector(".title__letter").textContent = "";
+        if (text__letter) text__letter.textContent = "";
+        currentIndexLetter = 0
+        currentIndexTitle = 0
+        if (document.querySelector("#heart__letter")) document.querySelector("#heart__letter").classList.remove("animationOp");
+        if (document.querySelector(".love__img")) document.querySelector(".love__img").classList.remove("animationOp");
+        if (document.querySelector("#mewmew")) document.querySelector("#mewmew").classList.remove("animationOp");
+        document.querySelectorAll(".heart").forEach((item) => { item.classList.remove("animation") })
+        $(".box__letter").slideUp();
+        $(".letter__border").slideUp();
+    })
+
+
+    let mailBox = document.querySelector('.mail')
+    let boxmail = document.querySelector('.boxMail')
+    var close = document.querySelector('.fa-xmark')
+    mailBox.onclick = function () {
+        mailBox.classList.toggle('active')
+        if (boxmail) boxmail.classList.add('active')
+    }
+
+    if (close) close.addEventListener('click', function () {
+        if (boxmail) boxmail.classList.remove('active')
+    })
+</script>
+</body>
+</html>

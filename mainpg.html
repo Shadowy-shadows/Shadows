@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday Surprise</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body class="page page-hero intro-active">
+
+    <canvas id="petalCanvas" aria-hidden="true"></canvas>
+
+    <!-- INTRO: Sakura tree germination overlay -->
+    <div id="introScene" aria-hidden="true">
+        <canvas id="introCanvas"></canvas>
+        <div id="treeWrap">
+            <svg id="sakuraTree" viewBox="0 0 400 420" width="720" height="720" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <g id="tree" transform="translate(200,380)">
+                    <rect x="-18" y="0" width="36" height="200" rx="10" fill="#6b3d2a" class="trunk" />
+                    <g class="branches">
+                        <path class="branch" d="M0 60 C -40 10 -120 -40 -160 -140" stroke="#6b3d2a" stroke-width="12" stroke-linecap="round" fill="none" />
+                        <path class="branch" d="M0 50 C 48 -10 120 -70 180 -160" stroke="#6b3d2a" stroke-width="10" stroke-linecap="round" fill="none" />
+                        <path class="branch" d="M0 40 C -28 -30 -70 -90 -120 -150" stroke="#6b3d2a" stroke-width="8" stroke-linecap="round" fill="none" />
+                        <path class="branch" d="M0 42 C 18 -34 60 -96 108 -156" stroke="#6b3d2a" stroke-width="8" stroke-linecap="round" fill="none" />
+                    </g>
+                    <g class="blossoms">
+                        <circle class="blossom" r="12" cx="-160" cy="-140" fill="#ffd9ea" />
+                        <circle class="blossom" r="10" cx="-120" cy="-150" fill="#ffd0e7" />
+                        <circle class="blossom" r="12" cx="108" cy="-156" fill="#ffe0ef" />
+                        <circle class="blossom" r="9" cx="180" cy="-160" fill="#ffcfe6" />
+                        <circle class="blossom" r="8" cx="-40" cy="-90" fill="#ffe6f0" />
+                        <circle class="blossom" r="7" cx="60" cy="-110" fill="#ffd6ea" />
+                    </g>
+                </g>
+            </svg>
+        </div>
+    </div>
+
+    <!-- 🎵 MUSIC WIDGET -->
+    <div id="musicWidget" class="music-widget paused">
+        <div class="wave wave1"></div>
+        <div class="wave wave2"></div>
+        <div class="wave wave3"></div>
+        <i class="fa-solid fa-music music-icon"></i>
+    </div>
+    <audio id="bgMusic" preload="auto" loop></audio>
+
+    <div class="hero-overlay"></div>
+
+    <header class="hero-top">
+        <h1 class="site-title">Yashika</h1>
+        <p class="site-sub">29 November</p>
+    </header>
+
+    <main class="hero-main">
+        <div class="portrait-container">
+            <img src="media/logo.jpeg" alt="Birthday Girl" class="portrait">
+            <div class="portrait-shine"></div>
+        </div>
+
+        <div class="intro-text">
+            <h2>Hey.. Happy Birthday!</h2>
+            <p>Open your message by clicking the gift 💝</p>
+        </div>
+    </main>
+
+    <a href="birthday.html" class="floating-btn">
+        <i class="fa-solid fa-gift"></i>
+        <span class="btn-name">OPEN MESSAGE</span>
+    </a>
+
+    <footer class="credits">Hey wassup.. 😊</footer>
+
+    <script>
+    const audio = document.getElementById("bgMusic");
+    const widget = document.getElementById("musicWidget");
+
+    let selected = localStorage.getItem("selectedSong");
+    if (!selected) selected = '';
+    if (selected) audio.src = "media/" + selected;
+    let playing = false;
+
+    // Improved intro orchestration: large tree growth, blossoms detach into fragments,
+    // fragments reorganize gradually to reveal page elements.
+    window.addEventListener('load', () => {
+        const body = document.body;
+        const treeWrap = document.getElementById('treeWrap');
+        const introCanvas = document.getElementById('introCanvas');
+        const svg = document.getElementById('sakuraTree');
+        const heroEls = [document.querySelector('.hero-top'), document.querySelector('.hero-main'), document.querySelector('.floating-btn')].filter(Boolean);
+
+        const ic = introCanvas.getContext ? introCanvas.getContext('2d') : null;
+        let DPR = window.devicePixelRatio || 1;
+        function resizeIntro() {
+            if (!introCanvas) return;
+            DPR = window.devicePixelRatio || 1;
+            introCanvas.width = Math.floor(window.innerWidth * DPR);
+            introCanvas.height = Math.floor(window.innerHeight * DPR);
+            introCanvas.style.width = window.innerWidth + 'px';
+            introCanvas.style.height = window.innerHeight + 'px';
+            if (ic) ic.setTransform(DPR,0,0,DPR,0,0);
+        }
+        resizeIntro(); window.addEventListener('resize', resizeIntro);
+
+        // start growth
+        setTimeout(()=> treeWrap.classList.add('grow'), 260);
+
+        function getSvgBlossoms() {
+            const blossoms = [];
+            if (!svg) return blossoms;
+            const circles = svg.querySelectorAll('.blossom');
+            circles.forEach(c => {
+                const rect = c.getBoundingClientRect();
+                blossoms.push({x: rect.left + rect.width/2, y: rect.top + rect.height/2, r: +c.getAttribute('r')});
+            });
+            return blossoms;
+        }
+
+        const particles = [];
+        const MAX_PARTICLES = 160; // reduced for performance and to avoid freezes
+        function addParticle(x,y,color,size) {
+            if (particles.length >= MAX_PARTICLES) return;
+            particles.push({x,y,ox:x,oy:y,tx:null,ty:null,vx:(Math.random()-0.5)*0.2,vy:(Math.random()-0.25)*0.2,rot:Math.random()*Math.PI*2,rotV:(Math.random()-0.5)*0.03,sizeTarget:size,size:size*0.6,color});
+        }
+
+        function seedParticlesFromTree() {
+            const blossoms = getSvgBlossoms();
+            for (let b of blossoms) addParticle(b.x + (Math.random()-0.5)*20, b.y + (Math.random()-0.5)*20, `rgba(255,${200+Math.round(Math.random()*40)},${220+Math.round(Math.random()*35)},1)`, 8 + Math.random()*12);
+            const rect = treeWrap.getBoundingClientRect();
+            for (let i=0;i<60;i++) addParticle(rect.left + rect.width*0.5 + (Math.random()-0.5)*120, rect.top + rect.height*0.85 + Math.random()*30, `rgba(255,${190+Math.round(Math.random()*60)},${210+Math.round(Math.random()*50)},1)`, 6 + Math.random()*12);
+        }
+
+        function computeTargets(count) {
+            const targets = [];
+            const boxes = heroEls.map(el=>el.getBoundingClientRect());
+            if (boxes.length===0) {
+                for (let i=0;i<count;i++) targets.push({x: window.innerWidth/2 + (Math.random()-0.5)*300, y: window.innerHeight/2 + (Math.random()-0.5)*200});
+                return targets;
+            }
+            const areaList = boxes.map(b=>Math.max(1, b.width*b.height));
+            const totalArea = areaList.reduce((s,a)=>s+a,0);
+            for (let i=0;i<count;i++) {
+                let r = Math.random()*totalArea; let idx=0;
+                while (r>areaList[idx]) { r-=areaList[idx]; idx++; if (idx>=areaList.length) idx=areaList.length-1; }
+                const box = boxes[idx];
+                const px = box.left + Math.random()*box.width;
+                const py = box.top + Math.random()*box.height;
+                targets.push({x:px, y:py});
+            }
+            return targets;
+        }
+
+        function easeOutCubic(t){return 1 - Math.pow(1-t,3)}
+
+        seedParticlesFromTree();
+        let start = performance.now();
+        let phase = 'rise';
+        let last = start;
+        let reorganizeStart = null;
+        let targets = [];
+
+        function animate(now) {
+            const dt = now - last; last = now;
+            if (!ic) return;
+            ic.clearRect(0,0,introCanvas.width,introCanvas.height);
+
+            if (phase === 'rise') {
+            if (particles.length < MAX_PARTICLES && Math.random()<0.32) {
+                    const rect = treeWrap.getBoundingClientRect();
+                    addParticle(rect.left + rect.width*0.5 + (Math.random()-0.5)*160, rect.top + rect.height*0.85 + Math.random()*30, `rgba(255,${190+Math.round(Math.random()*60)},${210+Math.round(Math.random()*50)},1)`, 6 + Math.random()*12);
+                }
+                for (let p of particles) {
+                    // gentle random upward lift with small jitter, plus damping for smooth motion
+                    p.vx += (Math.random()-0.5)*0.004;
+                    p.vy += -0.008 + (Math.random()-0.5)*0.004;
+                    // apply damping
+                    p.vx *= 0.995; p.vy *= 0.995;
+                    p.x += p.vx * (dt * 0.06);
+                    p.y += p.vy * (dt * 0.06);
+                    p.rot += p.rotV * 0.9;
+                    // smooth size interpolation for subtle pop
+                    if (p.sizeTarget !== undefined) p.size += (p.sizeTarget - p.size) * 0.08;
+                    ic.save(); ic.translate(p.x,p.y); ic.rotate(p.rot);
+                    ic.fillStyle = p.color; ic.beginPath(); ic.ellipse(0,0,p.size*0.6,p.size*0.9,0,0,Math.PI*2); ic.fill(); ic.restore();
+                }
+                if (now - start > 1600) {
+                    phase = 'reorganize'; reorganizeStart = now; targets = computeTargets(particles.length);
+                    for (let i=0;i<particles.length;i++) { particles[i].tx = targets[i].x; particles[i].ty = targets[i].y; particles[i].mx = particles[i].x; particles[i].my = particles[i].y; }
+                    treeWrap.style.transition = 'opacity .9s ease, transform .9s ease'; treeWrap.style.opacity = '0'; treeWrap.style.transform = 'scale(0.9) translateY(20px)';
+                }
+            } else if (phase === 'reorganize') {
+                const elapsed = now - reorganizeStart; const duration = 2000;
+                const t = Math.min(1, elapsed/duration);
+                const ease = easeOutCubic(t);
+                for (let p of particles) {
+                    if (p.tx==null) continue;
+                    // smoother interpolation: base lerp plus gentle residual oscillation
+                    const jitterScale = 1 - ease;
+                    const jitterX = Math.sin((p.ox + p.oy + elapsed) * 0.0017) * 6 * jitterScale;
+                    const jitterY = Math.cos((p.ox + p.oy + elapsed) * 0.0009) * 4 * jitterScale;
+                    p.x = p.mx + (p.tx - p.mx) * ease + jitterX;
+                    p.y = p.my + (p.ty - p.my) * ease + jitterY;
+                    p.rot += p.rotV * 0.5;
+                    // gently settle size toward a compact reveal size
+                    if (p.sizeTarget !== undefined) p.size += (Math.max(4, p.sizeTarget*0.6) - p.size) * 0.06;
+                    ic.save(); ic.translate(p.x,p.y); ic.rotate(p.rot); ic.fillStyle = p.color; ic.beginPath(); ic.ellipse(0,0,p.size*0.6,p.size*0.9,0,0,Math.PI*2); ic.fill(); ic.restore();
+                }
+                if (t >= 1) {
+                    phase = 'done';
+                    const els = heroEls; let idx = 0;
+                    const revealInterval = setInterval(()=>{ if (idx >= els.length) { clearInterval(revealInterval); } else { els[idx].classList.add('pop-in'); idx++; } }, 260);
+                    setTimeout(()=>{
+                        introCanvas.style.transition = 'opacity .9s ease'; introCanvas.style.opacity = '0';
+                        document.getElementById('introScene').style.transition = 'opacity 0.9s ease, visibility 0.9s';
+                        document.getElementById('introScene').style.opacity = '0';
+                        setTimeout(()=>{ document.getElementById('introScene').style.display = 'none'; body.classList.remove('intro-active'); }, 1000);
+                        try { if (selected) audio.play().then(()=>{ playing=true; widget.classList.remove('paused'); }).catch(()=>{}); } catch(e){}
+                    }, 380);
+                }
+            }
+            if (phase !== 'done') requestAnimationFrame(animate);
+        }
+        requestAnimationFrame(animate);
+        // allow skipping the intro by clicking/tapping the intro scene
+        const introSceneEl = document.getElementById('introScene');
+        function skipIntro() {
+            phase = 'done';
+            // remove overlay and reveal content immediately
+            introCanvas.style.transition = 'opacity .3s ease'; introCanvas.style.opacity = '0';
+            introSceneEl.style.transition = 'opacity .3s ease, visibility .3s'; introSceneEl.style.opacity = '0';
+            setTimeout(()=>{ introSceneEl.style.display = 'none'; document.body.classList.remove('intro-active'); document.querySelectorAll('.hero-top, .hero-main, .floating-btn').forEach(el=>el.classList.add('pop-in')); try { if (selected) audio.play().catch(()=>{}); } catch(e){} }, 350);
+        }
+        if (introSceneEl) {
+            introSceneEl.style.cursor = 'pointer';
+            introSceneEl.addEventListener('click', skipIntro, {passive:true});
+        }
+    });
+
+    widget.addEventListener("click", () => {
+        if (!playing) {
+            audio.play();
+            widget.classList.remove("paused");
+            playing = true;
+        } else {
+            audio.pause();
+            widget.classList.add("paused");
+            playing = false;
+        }
+    });
+    </script>
+
+    <!-- Sakura petals canvas script -->
+    <script>
+    (() => {
+        const canvas = document.getElementById('petalCanvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+
+        let DPR = window.devicePixelRatio || 1;
+        function resize() {
+            DPR = window.devicePixelRatio || 1;
+            canvas.width = Math.floor(window.innerWidth * DPR);
+            canvas.height = Math.floor(window.innerHeight * DPR);
+            canvas.style.width = window.innerWidth + 'px';
+            canvas.style.height = window.innerHeight + 'px';
+            ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+        }
+
+        Object.assign(canvas.style, { position: 'fixed', top: '0', left: '0', pointerEvents: 'none', zIndex: '1050' });
+        window.addEventListener('resize', resize); resize();
+
+        const petals = [];
+        const MAX = Math.max(12, Math.round(window.innerWidth / 20));
+        function rand(min, max) { return Math.random() * (max - min) + min; }
+
+        class Petal {
+            constructor() { this.reset(true); }
+            reset(fromTop) {
+                this.x = rand(-50, window.innerWidth + 50);
+                this.y = fromTop ? rand(-80, -10) : rand(-20, window.innerHeight);
+                this.size = rand(8, 22);
+                this.xVel = rand(-0.4, 0.8);
+                this.yVel = rand(0.6, 2.2);
+                this.rotation = rand(0, Math.PI * 2);
+                this.rotVel = rand(-0.02, 0.02);
+                this.opacity = rand(0.6, 1);
+                this.color = `rgba(255,${Math.round(rand(200,240))},${Math.round(rand(220,255))},${this.opacity})`;
+                this.swingPhase = rand(0, Math.PI*2);
+            }
+            update(dt) {
+                this.x += this.xVel + Math.sin(this.swingPhase) * 0.6;
+                this.y += this.yVel; this.rotation += this.rotVel; this.swingPhase += 0.02;
+                if (this.y - this.size > window.innerHeight + 50 || this.x < -100 || this.x > window.innerWidth + 100) this.reset(true);
+            }
+            draw(ctx) {
+                ctx.save(); ctx.translate(this.x, this.y); ctx.rotate(this.rotation); ctx.fillStyle = this.color;
+                ctx.beginPath(); ctx.moveTo(0,0); ctx.quadraticCurveTo(this.size*0.6, -this.size*0.2, this.size*0.2, -this.size*0.9);
+                ctx.quadraticCurveTo(0, -this.size*0.6, -this.size*0.2, -this.size*0.9); ctx.quadraticCurveTo(-this.size*0.6, -this.size*0.2, 0, 0); ctx.closePath(); ctx.fill(); ctx.restore();
+            }
+        }
+
+        function spawn(initial) { if (petals.length >= MAX) return; petals.push(new Petal(initial)); }
+        for (let i = 0; i < Math.min(40, MAX); i++) spawn(false);
+
+        let last = performance.now();
+        function frame(now) {
+            const dt = now - last; last = now; ctx.clearRect(0,0,canvas.width,canvas.height);
+            if (Math.random() < 0.5 && petals.length < MAX) spawn(true);
+            for (let p of petals) { p.update(dt); p.draw(ctx); }
+            requestAnimationFrame(frame);
+        }
+        requestAnimationFrame(frame);
+    })();
+    </script>
+
+</body>
+</html>
